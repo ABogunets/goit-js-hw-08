@@ -1,5 +1,5 @@
     
-import { save, load } from "./storage.js";
+import { save, load } from "./storage.js";//фунцкії для роботи з Localstorage
 import throttle from 'lodash.throttle';
 
 // initialization of the player

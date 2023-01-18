@@ -1,31 +1,30 @@
-import { save, load } from "./storage.js";
+import { save, load } from "./storage.js";//фунцкії для роботи з Localstorage
 import throttle from 'lodash.throttle';
 
-// Відстежуй на формі подію input, і щоразу записуй у локальне сховище об'єкт з полями email і message,
-// у яких зберігай поточні значення полів форми.Нехай ключем для сховища буде рядок "feedback-form-state".
-// Під час завантаження сторінки перевіряй стан сховища, і якщо там є збережені дані, заповнюй ними поля форми. 
-// В іншому випадку поля повинні бути порожніми.
-// Під час сабміту форми очищуй сховище і поля форми, а також виводь у консоль об'єкт з полями email, 
-// message та їхніми поточними значеннями.
-// Зроби так, щоб сховище оновлювалось не частіше, ніж раз на 500 мілісекунд. Для цього додай до проекту
-//  і використовуй бібліотеку lodash.throttle.
-
-const STORAGE_KEY = "feedback-form-state";
 
 const formRef = document.querySelector('.feedback-form');
+const inputRef = document.querySelector('input');
+const textareaRef = document.querySelector('textarea');
+
+const STORAGE_KEY = "feedback-form-state";
+const formData = load(STORAGE_KEY) || {};
 
 formRef.addEventListener('input', throttle(onFormInput, 500));
+formRef.addEventListener('submit', onFormSubmit);
 
-const createCurrentFormState = (email, message) => ({email, message});
+if (formData !== undefined) {
+    inputRef.value = formData.email || "";
+    textareaRef.value = formData.message || "";
+  }
 
-function onFormInput(evt) {
-  evt.preventDefault();
-  const currentEmail = evt.currentTarget.email.value;
-  const currentMessage = evt.currentTarget.message.value;
-  save(STORAGE_KEY, createCurrentFormState(currentEmail, currentMessage));
+function onFormInput({target}) {
+  formData[target.name] = target.value.trim();
+  save(STORAGE_KEY, formData);
 }
 
-formRef.addEventListener('submit', onFormSubmit);
-function onFormSubject(evt) {
-  evt.preventDefault();
+function onFormSubmit(e) {
+  e.preventDefault();
+  console.log(formData);
+  formRef.reset();
+  localStorage.removeItem(STORAGE_KEY);
 }
