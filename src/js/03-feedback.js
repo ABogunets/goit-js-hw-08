@@ -7,7 +7,6 @@ const inputRef = document.querySelector('input');
 const textareaRef = document.querySelector('textarea');
 
 const STORAGE_KEY = "feedback-form-state";
-// const formData = load(STORAGE_KEY) || {};
 const formData = load(STORAGE_KEY) || {};
 
 formRef.addEventListener('input', throttle(onFormInput, 500));
@@ -16,7 +15,6 @@ formRef.addEventListener('submit', onFormSubmit);
 fillFormDataAtStart();
 
 function fillFormDataAtStart() {
-  console.log(formData);
   if (formData !== undefined) {
     inputRef.value = formData.email || "";
     textareaRef.value = formData.message || "";
@@ -33,5 +31,4 @@ function onFormSubmit(e) {
   console.log(formData);
   formRef.reset();
   localStorage.removeItem(STORAGE_KEY);
-
 }
