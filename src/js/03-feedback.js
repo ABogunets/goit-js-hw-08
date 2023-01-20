@@ -6,6 +6,10 @@ const formRef = document.querySelector('.feedback-form');
 const inputRef = document.querySelector('input');
 const textareaRef = document.querySelector('textarea');
 
+inputRef.setAttribute('required', '');
+textareaRef.setAttribute('required', '');
+
+
 const STORAGE_KEY = "feedback-form-state";
 let formData = load(STORAGE_KEY) || {};
 

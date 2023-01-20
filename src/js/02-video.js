@@ -15,5 +15,5 @@ function onTimeupdate({ seconds }) {
   save(STORAGE_KEY, seconds);
 }
 const durationTime = load(STORAGE_KEY);
-player.setCurrentTime(durationTime);
+player.setCurrentTime(durationTime || 0);
 
